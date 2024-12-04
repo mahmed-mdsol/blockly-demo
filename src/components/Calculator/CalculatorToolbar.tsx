@@ -3,6 +3,7 @@ import { Play, Save, Folder, Download } from 'lucide-react';
 import { SaveWorkspaceDialog } from './WorkspaceManager/SaveWorkspaceDialog';
 import { WorkspaceDialog } from './WorkspaceManager/WorkspaceDialog';
 import { SavedWorkspace } from '../../types/workspace';
+import { useBlocklyWorkspace } from '../../hooks/useBlocklyWorkspace';
 
 interface CalculatorToolbarProps {
   onSave: (name: string) => void;
@@ -15,6 +16,7 @@ interface CalculatorToolbarProps {
 export function CalculatorToolbar({ onSave, onLoad, onDelete, workspaces, onRun }: CalculatorToolbarProps) {
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [isLoadDialogOpen, setIsLoadDialogOpen] = useState(false);
+  const { savedState } = useBlocklyWorkspace();
   const [workspaceToEdit, setWorkspaceToEdit] = useState<SavedWorkspace | null>(null);
 
   return (
@@ -58,7 +60,7 @@ export function CalculatorToolbar({ onSave, onLoad, onDelete, workspaces, onRun 
           setWorkspaceToEdit(null);
         }}
         onSave={onSave}
-        defaultName={workspaceToEdit?.name}
+        defaultName={workspaceToEdit?.name || savedState?.name}
       />
 
       <WorkspaceDialog

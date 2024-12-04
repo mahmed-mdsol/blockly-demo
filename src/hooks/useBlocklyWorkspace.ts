@@ -6,6 +6,7 @@ import { saveWorkspace, getAllWorkspaces, deleteWorkspace } from '../utils/stora
 
 export function useBlocklyWorkspace() {
   const workspace = useRef<Blockly.WorkspaceSvg | null>(null);
+  const [savedState, setSavedState] = useState<SavedWorkspace | null>(null);
   const [code, setCode] = useState<string>('');
   const [workspaces, setWorkspaces] = useState<SavedWorkspace[]>(getAllWorkspaces());
 
@@ -18,27 +19,26 @@ export function useBlocklyWorkspace() {
   const saveCurrentWorkspace = useCallback((name: string) => {
     if (!workspace.current) return;
 
-    const xml = Blockly.Xml.workspaceToDom(workspace.current);
-    const xmlString = Blockly.Xml.domToText(xml);
-    
+    const state = Blockly.serialization.workspaces.save(workspace.current);
+
     const newWorkspace: SavedWorkspace = {
-      id: crypto.randomUUID(),
+      id: name === savedState?.name ? savedState.id : crypto.randomUUID(),
       name,
-      xml: xmlString,
+      state,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-
     saveWorkspace(newWorkspace);
     setWorkspaces(getAllWorkspaces());
-  }, []);
+    setSavedState(newWorkspace);
+  }, [savedState]);
 
   const loadWorkspace = useCallback((savedWorkspace: SavedWorkspace) => {
     if (!workspace.current) return;
 
     workspace.current.clear();
-    const xml = Blockly.Xml.textToDom(savedWorkspace.xml);
-    Blockly.Xml.domToWorkspace(xml, workspace.current);
+    Blockly.serialization.workspaces.load(savedWorkspace.state, workspace.current);
+    setSavedState(savedWorkspace);
     updateCode();
   }, [updateCode]);
 
@@ -51,6 +51,7 @@ export function useBlocklyWorkspace() {
     workspace,
     code,
     workspaces,
+    savedState,
     updateCode,
     saveCurrentWorkspace,
     loadWorkspace,

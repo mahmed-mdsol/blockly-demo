@@ -1,7 +1,7 @@
 export interface SavedWorkspace {
   id: string;
   name: string;
-  xml: string;
+  state: object;
   createdAt: string;
   updatedAt: string;
 }

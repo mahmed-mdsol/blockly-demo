@@ -18,7 +18,7 @@ export function RunModal({ isOpen, onClose, onRun, workspace }: RunModalProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const processedValues: Record<string, any> = {};
+    const processedValues: Record<string, string | number | boolean> = {};
 
     variables.forEach((variable) => {
       const value = variableValues[variable.id] || '';

@@ -1,5 +1,5 @@
 import * as Blockly from 'blockly';
-import { javascriptGenerator } from 'blockly/javascript';
+import { javascriptGenerator, Order } from 'blockly/javascript';
 
 export function initStringBlocks() {
   Blockly.Blocks['text_concat'] = {
@@ -27,14 +27,15 @@ export function initStringBlocks() {
     }
   };
 
-  javascriptGenerator['text_concat'] = function(block: Blockly.Block) {
-    const valueA = javascriptGenerator.valueToCode(block, 'A', javascriptGenerator.ORDER_NONE) || "''";
-    const valueB = javascriptGenerator.valueToCode(block, 'B', javascriptGenerator.ORDER_NONE) || "''";
-    return [`String(${valueA}) + String(${valueB})`, javascriptGenerator.ORDER_ADDITION];
+  javascriptGenerator.forBlock['text_concat'] = function(block: Blockly.Block) {
+    const valueA = javascriptGenerator.valueToCode(block, 'A', Order.NONE) || "''";
+    const valueB = javascriptGenerator.valueToCode(block, 'B', Order.NONE) || "''";
+    return [`String(${valueA}) + String(${valueB})`, Order.ADDITION];
   };
 
-  javascriptGenerator['text_to_string'] = function(block: Blockly.Block) {
-    const value = javascriptGenerator.valueToCode(block, 'VALUE', javascriptGenerator.ORDER_NONE) || "''";
-    return [`String(${value})`, javascriptGenerator.ORDER_FUNCTION_CALL];
+  javascriptGenerator.forBlock['text_to_string'] = function(block: Blockly.Block) {
+    const value = javascriptGenerator.valueToCode(block, 'VALUE', Order.NONE) || "''";
+    return [`String(${value})`, Order.FUNCTION_CALL];
   };
+
 }

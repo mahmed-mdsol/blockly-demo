@@ -25,7 +25,7 @@ export function Calculator() {
     setIsRunModalOpen(true);
   }, []);
 
-  const executeCode = useCallback((variables: Record<string, any>) => {
+  const executeCode = useCallback((variables: Record<string, string | number>) => {
     if (code) {
       try {
         // Create a function that takes the variables as parameters
@@ -36,7 +36,7 @@ export function Calculator() {
         // Create and execute the function with the provided variables
         // eslint-disable-next-line no-new-func
         const calculationFn = new Function(paramList, functionBody);
-        const result = calculationFn.apply(null, variableNames.map(name => variables[name]));
+        const result = calculationFn(...variableNames.map(name => variables[name]));
 
         console.log('Result:', result);
         alert(`Result: ${result}`);
@@ -137,7 +137,7 @@ export function Calculator() {
     return () => {
       workspace.current?.dispose();
     };
-  }, [updateCode]);
+  }, [workspace, updateCode]);
 
   return (
     <div className="flex flex-col h-screen">
@@ -156,7 +156,9 @@ export function Calculator() {
         <div
           ref={toolboxDiv}
           className="absolute top-0 right-0 h-full w-1/4 bg-white shadow-lg"
-        />
+        >
+          {code}
+        </div>
       </div>
 
       <RunModal
