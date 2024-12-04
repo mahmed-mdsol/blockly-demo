@@ -19,12 +19,12 @@ export function RunModal({ isOpen, onClose, onRun, workspace }: RunModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const processedValues: Record<string, any> = {};
-    
+
     variables.forEach((variable) => {
       const value = variableValues[variable.id] || '';
       // Convert string values to appropriate types
-      processedValues[variable.name] = variable.type === 'Number' 
-        ? Number(value) 
+      processedValues[variable.name] = variable.type === 'Number'
+        ? Number(value)
         : variable.type === 'Boolean'
         ? value.toLowerCase() === 'true'
         : value;
@@ -50,16 +50,16 @@ export function RunModal({ isOpen, onClose, onRun, workspace }: RunModalProps) {
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
+        <form onSubmit={handleSubmit}>
         {variables.length === 0 ? (
           <p className="text-gray-600">No variables to initialize.</p>
         ) : (
-          <form onSubmit={handleSubmit}>
             <div className="space-y-4">
               {variables.map((variable) => (
                 <div key={variable.id}>
-                  <label 
-                    htmlFor={variable.id} 
+                  <label
+                    htmlFor={variable.id}
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
                     {variable.name} ({variable.type})
@@ -87,24 +87,24 @@ export function RunModal({ isOpen, onClose, onRun, workspace }: RunModalProps) {
                 </div>
               ))}
             </div>
-            
-            <div className="mt-6 flex justify-end space-x-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              >
-                Run Calculation
-              </button>
-            </div>
-          </form>
         )}
+          <div className="mt-6 flex justify-end space-x-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Run Calculation
+            </button>
+          </div>
+        </form>
+
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import * as Blockly from 'blockly';
-import { javascriptGenerator } from 'blockly/javascript';
+import { javascriptGenerator, Order } from 'blockly/javascript';
 import { initConditionalBlocks } from './blocks/conditionalBlocks';
 import { initSwitchBlocks } from './blocks/switchBlocks';
 import { initLoopBlocks } from './blocks/loopBlocks';
@@ -24,8 +24,8 @@ export function initCustomBlocks() {
     }
   };
 
-  javascriptGenerator['calculator_output'] = function(block: Blockly.Block) {
-    const value = javascriptGenerator.valueToCode(block, 'VALUE', javascriptGenerator.ORDER_ATOMIC);
+  javascriptGenerator.forBlock['calculator_output'] = function(block: Blockly.Block) {
+    const value = javascriptGenerator.valueToCode(block, 'VALUE', Order.ATOMIC);
     return `return ${value};`;
   };
 }

@@ -4,6 +4,8 @@ import { initCustomBlocks } from '../../utils/blockly/customBlocks';
 import { useBlocklyWorkspace } from '../../hooks/useBlocklyWorkspace';
 import { CalculatorToolbar } from './CalculatorToolbar';
 import { RunModal } from './RunModal/RunModal';
+// @ts-expect-error this plugin doesn't have type definitions
+import { ContinuousToolbox, ContinuousFlyout, ContinuousMetrics } from '@blockly/continuous-toolbox';
 
 export function Calculator() {
   const blocklyDiv = useRef<HTMLDivElement>(null);
@@ -30,12 +32,12 @@ export function Calculator() {
         const variableNames = Object.keys(variables);
         const paramList = variableNames.join(', ');
         const functionBody = code;
-        
+
         // Create and execute the function with the provided variables
         // eslint-disable-next-line no-new-func
         const calculationFn = new Function(paramList, functionBody);
         const result = calculationFn.apply(null, variableNames.map(name => variables[name]));
-        
+
         console.log('Result:', result);
         alert(`Result: ${result}`);
       } catch (error) {
@@ -51,6 +53,11 @@ export function Calculator() {
     initCustomBlocks();
 
     const workspaceConfig: Blockly.BlocklyOptions = {
+      plugins: {
+        toolbox: ContinuousToolbox,
+        flyoutsVerticalToolbox: ContinuousFlyout,
+        metricsManager: ContinuousMetrics,
+      },
       toolbox: {
         kind: 'categoryToolbox',
         contents: [
@@ -142,16 +149,16 @@ export function Calculator() {
         onRun={handleRun}
       />
       <div className="flex-1 relative">
-        <div 
-          ref={blocklyDiv} 
+        <div
+          ref={blocklyDiv}
           className="absolute inset-0"
         />
-        <div 
-          ref={toolboxDiv} 
+        <div
+          ref={toolboxDiv}
           className="absolute top-0 right-0 h-full w-1/4 bg-white shadow-lg"
         />
       </div>
-      
+
       <RunModal
         isOpen={isRunModalOpen}
         onClose={() => setIsRunModalOpen(false)}

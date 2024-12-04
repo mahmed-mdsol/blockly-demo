@@ -1,6 +1,9 @@
 {
   "name": "medirules",
-  "author": {"email": "malik.ahmed@3ds.com", "name": "Malik Ahmed"},
+  "author": {
+    "email": "malik.ahmed@3ds.com",
+    "name": "Malik Ahmed"
+  },
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -11,7 +14,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "blockly": "^10.4.2",
+    "@blockly/continuous-toolbox": "^6.0.9",
+    "blockly": "^11.0.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
