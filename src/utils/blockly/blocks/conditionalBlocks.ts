@@ -1,5 +1,5 @@
 import * as Blockly from 'blockly';
-import { javascriptGenerator } from 'blockly/javascript';
+import { javascriptGenerator, Order } from 'blockly/javascript';
 
 export function initConditionalBlocks() {
   Blockly.Blocks['custom_if'] = {
@@ -18,8 +18,8 @@ export function initConditionalBlocks() {
     }
   };
 
-  javascriptGenerator['custom_if'] = function(block: Blockly.Block) {
-    const condition = javascriptGenerator.valueToCode(block, 'IF', javascriptGenerator.ORDER_NONE) || 'false';
+  javascriptGenerator.forBlock['custom_if'] = function(block: Blockly.Block) {
+    const condition = javascriptGenerator.valueToCode(block, 'IF', Order.NONE) || 'false';
     const doCode = javascriptGenerator.statementToCode(block, 'DO') || '';
     const elseCode = javascriptGenerator.statementToCode(block, 'ELSE') || '';
     return `if (${condition}) {\n${doCode}} else {\n${elseCode}}\n`;

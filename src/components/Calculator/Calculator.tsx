@@ -147,6 +147,12 @@ export function Calculator() {
         onDelete={deleteWorkspaceById}
         workspaces={workspaces}
         onRun={handleRun}
+        onExport={() => {
+          if (workspace.current) {
+            navigator.clipboard.writeText(JSON.stringify(Blockly.serialization.workspaces.save(workspace.current)));
+            alert("Copied workspace json to clipboard!");
+          }
+        }}
       />
       <div className="flex-1 relative">
         <div

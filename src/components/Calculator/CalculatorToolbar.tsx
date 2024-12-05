@@ -11,9 +11,10 @@ interface CalculatorToolbarProps {
   onDelete: (id: string) => void;
   workspaces: SavedWorkspace[];
   onRun: () => void;
+  onExport: () => void;
 }
 
-export function CalculatorToolbar({ onSave, onLoad, onDelete, workspaces, onRun }: CalculatorToolbarProps) {
+export function CalculatorToolbar({ onSave, onLoad, onDelete, workspaces, onRun, onExport }: CalculatorToolbarProps) {
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [isLoadDialogOpen, setIsLoadDialogOpen] = useState(false);
   const { savedState } = useBlocklyWorkspace();
@@ -45,7 +46,9 @@ export function CalculatorToolbar({ onSave, onLoad, onDelete, workspaces, onRun 
               <Folder className="w-4 h-4 mr-2" />
               Load
             </button>
-            <button className="flex items-center px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+            <button
+              onClick={() => onExport()}
+              className="flex items-center px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
               <Download className="w-4 h-4 mr-2" />
               Export
             </button>
