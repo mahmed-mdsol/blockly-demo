@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { getVariablesFromWorkspace } from '../../../utils/blockly/variableUtils';
-import { Variable } from '../../../types/variable';
+import Blockly from 'blockly';
 
 interface RunModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onRun: (variables: Record<string, any>) => void;
+  onRun: (variables: Record<string, string | number | boolean>) => void;
   workspace: Blockly.WorkspaceSvg | null;
 }
 

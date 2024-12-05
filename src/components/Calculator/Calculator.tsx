@@ -25,7 +25,7 @@ export function Calculator() {
     setIsRunModalOpen(true);
   }, []);
 
-  const executeCode = useCallback((variables: Record<string, string | number>) => {
+  const executeCode = useCallback((variables: Record<string, string | number | boolean>) => {
     if (code) {
       try {
         // Create a function that takes the variables as parameters
